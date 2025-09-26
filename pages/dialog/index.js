@@ -9,6 +9,69 @@ export default function AuthDialogSimplified({ isOpen = true, onClose }) {
   const [tab, setTab] = useState("");
   const [form, setForm] = useState({ email: "", password: "" });
 
+  const providers = [
+    { code: "cq9", name: "CQ9", index: "cq9#cq9" },
+    { code: "btg", name: "BIG TIME GAMING", index: "evs#btg" },
+    { code: "rt", name: "RED TIGER", index: "evs#rt" },
+    { code: "nt", name: "NETENT", index: "evs#nt" },
+    { code: "nlc", name: "NO LIMIT CITY", index: "evs#nlc" },
+    { code: "f5g", name: "5G GAMES", index: "jx#f5g" },
+    { code: "png", name: "PLAY N GO", index: "jx#png" },
+    { code: "mg", name: "MICRO GAMING", index: "jx#mg" },
+    { code: "pp", name: "PRAGMATIC PLAY", index: "jx#pp" },
+    { code: "pt", name: "PLAY TECH", index: "jx#pt" },
+    { code: "sb", name: "SPRIBE", index: "jx#sb" },
+    { code: "hs", name: "HACK SAW", index: "jx#hs" },
+    { code: "jili", name: "JILI", index: "jili#jili" },
+    { code: "relax", name: "RELAX GAMING", index: "jx#relax" },
+    { code: "yg", name: "YGGDRASIL", index: "jx#yg" },
+    { code: "ag", name: "PLAY ACE", index: "ag#ag" },
+    { code: "atg", name: "ATG GAMES", index: "jx#atg" },
+    { code: "stm", name: "SLOTMILL", index: "jx#stm" },
+  ];
+
+  function groupProvidersByName(providers) {
+    const groups = {};
+
+    providers.forEach((element) => {
+      const firstChar = element.name.trim().charAt(0).toUpperCase();
+
+      let key;
+      if (/[0-9]/.test(firstChar)) {
+        key = "0-9";
+      } else if (/[A-Z]/.test(firstChar)) {
+        key = firstChar;
+      } else {
+        key = "#";
+      }
+
+      // 初始化物件的陣列
+      if (!groups[key]) {
+        groups[key] = [];
+      }
+
+      // 將當前 provider 加入
+      groups[key].push(element);
+    });
+
+    Object.keys(groups).forEach((key) => {
+      groups[key].sort((a, b) => a.name.localeCompare(b.name));
+    });
+
+    const sortedGroups = {};
+
+    Object.keys(groups)
+      .sort((a, b) => a.localeCompare(b))
+      .forEach((key) => {
+        sortedGroups[key] = groups[key];
+      });
+
+    return sortedGroups;
+  }
+
+  // console.log(providers);
+  // console.log(groupProvidersByName(providers));
+
   // ESC 關閉
   useEffect(() => {
     function onKey(e) {
@@ -35,14 +98,15 @@ export default function AuthDialogSimplified({ isOpen = true, onClose }) {
         )}
       >
         {/* Banner */}
-        {/* <div className="w-full aspect-[740/300] rounded-xl overflow-hidden bg-amber-50">
+        <div className="w-full aspect-[740/300] rounded-xl overflow-hidden bg-amber-50">
           <Image
             className="w-full h-full object-cover"
             src={MyImage}
             alt="myImage"
+            priority
             onClick={() => {}}
           />
-        </div> */}
+        </div>
 
         {/* Title */}
         <div className="flex justify-between items-center rounded-xl">
@@ -54,110 +118,36 @@ export default function AuthDialogSimplified({ isOpen = true, onClose }) {
 
         {/* Groups */}
         <div className="w-full flex flex-col gap-y-[15px] overflow-y-auto">
-          <div className="flex flex-col gap-2">
-            <h1 className="flex gap-6 items-center">
-              <div className="whitespace-nowrap text-[#FFFFFF] font-bold">
-                0-9
-              </div>
-              <div className="w-full h-[2px] bg-[#18543F]"></div>
-            </h1>
-            <div className="flex flex-wrap gap-2">
-              {Array.from({ length: 15 }).map((_, idx) => (
-                <div
-                  key={idx}
-                  className={clsx(
-                    "w-[calc((100%-(2-1)*8px)/2)] h-[40px] flex items-center gap-2 px-3 py-2 border  rounded-[4px]",
-                    idx === 0
-                      ? "border-[#FFBE2A] text-[#FFBE2A] font-bold"
-                      : "border-[#18543F] text-white font-normal"
-                  )}
-                >
-                  <div>
-                    <Badge />
+          {Object.entries(groupProvidersByName(providers)).map(
+            ([key, providers], idx) => (
+              <div key={idx} className="flex flex-col gap-2">
+                <h1 className="flex gap-6 items-center">
+                  <div className="whitespace-nowrap text-[#FFFFFF] font-bold">
+                    {key}
                   </div>
-                  <div>ICO</div>
+                  <div className="w-full h-[2px] bg-[#18543F]"></div>
+                </h1>
+                <div className="flex flex-wrap gap-2">
+                  {providers.map((provider, idx) => (
+                    <div
+                      key={idx}
+                      className={clsx(
+                        "w-[calc((100%-(2-1)*8px)/2)] h-[40px] flex items-center gap-2 px-3 py-2 border  rounded-[4px]",
+                        idx === 0
+                          ? "border-[#FFBE2A] text-[#FFBE2A] font-bold"
+                          : "border-[#18543F] text-white font-normal"
+                      )}
+                    >
+                      <div>
+                        <Badge />
+                      </div>
+                      <div>{provider.name}</div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <h1 className="flex gap-6 items-center">
-              <div className="whitespace-nowrap text-[#FFFFFF] font-bold">
-                0-9
               </div>
-              <div className="w-full h-[2px] bg-[#18543F]"></div>
-            </h1>
-            <div className="flex flex-wrap gap-2">
-              {Array.from({ length: 15 }).map((_, idx) => (
-                <div
-                  key={idx}
-                  className={clsx(
-                    "w-[calc((100%-(2-1)*8px)/2)] h-[40px] flex items-center gap-2 px-3 py-2 border  rounded-[4px]",
-                    idx === 0
-                      ? "border-[#FFBE2A] text-[#FFBE2A] font-bold"
-                      : "border-[#18543F] text-white font-normal"
-                  )}
-                >
-                  <div>
-                    <Badge />
-                  </div>
-                  <div>ICO</div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <h1 className="flex gap-6 items-center">
-              <div className="whitespace-nowrap text-[#FFFFFF] font-bold">
-                0-9
-              </div>
-              <div className="w-full h-[2px] bg-[#18543F]"></div>
-            </h1>
-            <div className="flex flex-wrap gap-2">
-              {Array.from({ length: 15 }).map((_, idx) => (
-                <div
-                  key={idx}
-                  className={clsx(
-                    "w-[calc((100%-(2-1)*8px)/2)] h-[40px] flex items-center gap-2 px-3 py-2 border  rounded-[4px]",
-                    idx === 0
-                      ? "border-[#FFBE2A] text-[#FFBE2A] font-bold"
-                      : "border-[#18543F] text-white font-normal"
-                  )}
-                >
-                  <div>
-                    <Badge />
-                  </div>
-                  <div>ICO</div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <h1 className="flex gap-6 items-center">
-              <div className="whitespace-nowrap text-[#FFFFFF] font-bold">
-                0-9
-              </div>
-              <div className="w-full h-[2px] bg-[#18543F]"></div>
-            </h1>
-            <div className="flex flex-wrap gap-2">
-              {Array.from({ length: 15 }).map((_, idx) => (
-                <div
-                  key={idx}
-                  className={clsx(
-                    "w-[calc((100%-(2-1)*8px)/2)] h-[40px] flex items-center gap-2 px-3 py-2 border  rounded-[4px]",
-                    idx === 0
-                      ? "border-[#FFBE2A] text-[#FFBE2A] font-bold"
-                      : "border-[#18543F] text-white font-normal"
-                  )}
-                >
-                  <div>
-                    <Badge />
-                  </div>
-                  <div>ICO</div>
-                </div>
-              ))}
-            </div>
-          </div>
+            )
+          )}
         </div>
       </div>
     </div>
