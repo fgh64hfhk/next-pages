@@ -1,8 +1,25 @@
 import QQLayout from "@/layouts/QQLayout";
 import Image from "next/image";
-import { useState } from "react";
+import { createPortal } from "react-dom";
+import { useEffect, useState } from "react";
+import clsx from "clsx";
 export default function Promo() {
-  const [pageData, setPageData] = useState({});
+  const [pageData, setPageData] = useState({
+    id: 0,
+    isInfoDialogOpen: false,
+  });
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const body = window.document.body;
+
+    if (pageData.isInfoDialogOpen === true) {
+      body.classList = "overflow-hidden";
+    } else {
+      body.classList.remove("overflow-hidden");
+    }
+  }, [pageData.isInfoDialogOpen]);
 
   return (
     <div className="w-full flex flex-col gap-y-4 bg-[#073926]">
@@ -22,7 +39,7 @@ export default function Promo() {
             key={idx}
             className="w-[calc((100%-2*10px)/3)] h-[334px] rounded-md overflow-hidden bg-[#092F22]"
           >
-            <Card />
+            <Card pageData={pageData} setPageData={setPageData} />
           </div>
         ))}
       </div>
@@ -52,13 +69,14 @@ export default function Promo() {
           activity constitutes multiple accounts abuse.
         </p>
       </div>
+      <InfoDialog pageData={pageData} setPageData={setPageData} />
     </div>
   );
 }
 
-function Card({ id, title, type, item }) {
+function Card({ pageData, setPageData }) {
   return (
-    <div key={id} className="w-full h-full flex flex-col rounded-lg">
+    <div key={pageData.id} className="w-full h-full flex flex-col rounded-lg">
       <div className="aspect-[416/200] relative">
         <Image
           className="object-cover"
@@ -71,14 +89,19 @@ function Card({ id, title, type, item }) {
       </div>
       <div className="h-full flex flex-col px-3 py-4">
         <h1 className="text-[#9BC9B0] font-bold">
-          0.6% WEEKLY LIVE CASH REBATE
+          0.6% WEEKLY LIVE CASH REBATE - {pageData.id}
           {/* {title} - {type} */}
         </h1>
         <p className="text-[#9BC9B0] font-normal">
           Welcome bonus for QQclubs new member with 100% bonus up to MYR388!{" "}
         </p>
         <div className="w-full h-[37px] flex justify-between gap-4">
-          <button className="w-[50%] rounded-md border border-[#18543F] text-white font-bold bg-[#092F22]">
+          <button
+            className="w-[50%] rounded-md border border-[#18543F] text-white font-bold bg-[#092F22]"
+            onClick={() =>
+              setPageData((prev) => ({ ...prev, isInfoDialogOpen: true }))
+            }
+          >
             Detail
           </button>
           <button className="w-[50%] rounded-md border text-[#092F22] font-bold bg-[#EBA022]">
@@ -88,6 +111,79 @@ function Card({ id, title, type, item }) {
       </div>
     </div>
   );
+}
+
+function InfoDialog({ pageData, setPageData }) {
+  const [modalRoot, setModalRoot] = useState(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const modalRoot = window.document.getElementById("modal-content");
+    setModalRoot(modalRoot);
+  }, []);
+
+  return modalRoot
+    ? createPortal(
+        <div
+          className={clsx(
+            "w-screen h-screen fixed top-[50%] left-[50%] transform -translate-[50%] flex justify-center items-center z-30 bg-[#00000080]",
+            !pageData.isInfoDialogOpen && "hidden"
+          )}
+          onClick={() =>
+            setPageData((prev) => ({
+              ...prev,
+              isInfoDialogOpen: false,
+            }))
+          }
+        >
+          <div
+            className="hidden-scrollbar w-[calc(100%*0.7)] h-[calc(100%*0.7)] flex flex-col border gap-2.5 p-4 rounded-2xl text-white font-bold overflow-y-scroll relative bg-[#092F22]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <span
+              className="w-[20px] h-[20px] absolute top-[16px] right-[16px]"
+              onClick={() =>
+                setPageData((prev) => ({
+                  ...prev,
+                  isInfoDialogOpen: false,
+                }))
+              }
+            >
+              X
+            </span>
+            <h1>0.6% WEEKLY LIVE CASH REBATE</h1>
+            <p>
+              QQClubs, a leading Malaysia online casino, shines as a beacon of
+              excitement and opportunity in the ever-evolving online gaming
+              world. As we delve into the thrilling realm of the best online
+              casino sports betting, we can&apos;t help but recognize the
+              importance of having the right guide by your side.
+            </p>
+            <p>
+              We offer extensive online casino games, including blackjack and
+              slot games, poker rooms, and even Las Vegas-style high roller
+              experiences for those seeking that extra thrill. Its safe and
+              secure platform sets us apart, offering real-time gameplay, online
+              sportsbook options, and live casino events featuring live dealer
+              games like blackjack and roulette.
+            </p>
+            <p>
+              While navigating this extraordinary realm, you will encounter many
+              bonuses, promotions, and payment options, such as credit cards.
+              This ensures that your experience is seamless, just like playing a
+              hand of video poker. The excellence of QQClubs extends beyond its
+              games, with exceptional customer service and 24/7 customer support
+              through live chat, guaranteeing that you&apos;re never alone in
+              your online gambling journey. So, fasten your seatbelts and embark
+              on an adventure as we explore how we can transform your betting
+              experience and elevate your chances of success in online sports
+              betting and casino gaming
+            </p>
+          </div>
+        </div>,
+        modalRoot
+      )
+    : "";
 }
 
 Promo.getLayout = QQLayout;
