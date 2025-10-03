@@ -74,3 +74,5 @@ const data = {
   total: 6,
   last_page: 1,
 };
+
+export default data;

@@ -2,12 +2,31 @@ import QQLayout from "@/layouts/QQLayout";
 import Image from "next/image";
 import { createPortal } from "react-dom";
 import { useEffect, useState } from "react";
+import { useMediaQuery } from "@mui/material";
+import DOMPurify from "isomorphic-dompurify";
 import clsx from "clsx";
+
+import data from "../../mock/mockData";
+
+async function fetchData(payload) {
+  const res = data;
+  return res;
+}
 export default function Promo() {
   const [pageData, setPageData] = useState({
-    id: 0,
+    index: 0,
     isInfoDialogOpen: false,
+    data,
   });
+  const isLessThan768 = useMediaQuery("(max-width:768px)");
+  const columns = isLessThan768 ? 1 : 3;
+
+  useEffect(() => {
+    (async () => {
+      const data = await fetchData();
+      setPageData((prev) => ({ ...prev, data }));
+    })();
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -34,14 +53,21 @@ export default function Promo() {
         ))}
       </div>
       <div className="flex flex-wrap gap-[10px]">
-        {Array.from({ length: 9 }).map((_, idx) => (
-          <div
-            key={idx}
-            className="w-[calc((100%-2*10px)/3)] h-[334px] rounded-md overflow-hidden bg-[#092F22]"
-          >
-            <Card pageData={pageData} setPageData={setPageData} />
-          </div>
-        ))}
+        {pageData.data.items
+          ? pageData.data.items.map((item, idx) => (
+              <div
+                key={idx}
+                className={clsx(
+                  "h-[334px] rounded-md overflow-hidden bg-[#092F22]"
+                )}
+                style={{
+                  width: `calc((100% - ${columns - 1} * 10px) / ${columns})`,
+                }}
+              >
+                <Card index={idx} item={item} setPageData={setPageData} />
+              </div>
+            ))
+          : "loading..."}
       </div>
       <div className="w-full rounded-2xl p-6 flex flex-col gap-2.5 bg-[#092F22]">
         <h3 className="text-white">Promotional Terms & Conditions</h3>
@@ -69,18 +95,24 @@ export default function Promo() {
           activity constitutes multiple accounts abuse.
         </p>
       </div>
-      <InfoDialog pageData={pageData} setPageData={setPageData} />
+      {pageData.isInfoDialogOpen && (
+        <InfoDialog
+          detail={pageData.data.items[pageData.id]}
+          open={pageData.isInfoDialogOpen}
+          setPageData={setPageData}
+        />
+      )}
     </div>
   );
 }
 
-function Card({ pageData, setPageData }) {
+function Card({ index, item, setPageData }) {
   return (
-    <div key={pageData.id} className="w-full h-full flex flex-col rounded-lg">
+    <div key={item.code} className="w-full h-full flex flex-col rounded-lg">
       <div className="aspect-[416/200] relative">
         <Image
           className="object-cover"
-          src="https://placehold.co/600x400.png"
+          src={item.image}
           alt="img"
           fill
           unoptimized
@@ -88,10 +120,7 @@ function Card({ pageData, setPageData }) {
         />
       </div>
       <div className="h-full flex flex-col px-3 py-4">
-        <h1 className="text-[#9BC9B0] font-bold">
-          0.6% WEEKLY LIVE CASH REBATE - {pageData.id}
-          {/* {title} - {type} */}
-        </h1>
+        <h1 className="text-[#9BC9B0] font-bold">{item.name}</h1>
         <p className="text-[#9BC9B0] font-normal">
           Welcome bonus for QQclubs new member with 100% bonus up to MYR388!{" "}
         </p>
@@ -99,7 +128,11 @@ function Card({ pageData, setPageData }) {
           <button
             className="w-[50%] rounded-md border border-[#18543F] text-white font-bold bg-[#092F22]"
             onClick={() =>
-              setPageData((prev) => ({ ...prev, isInfoDialogOpen: true }))
+              setPageData((prev) => ({
+                ...prev,
+                isInfoDialogOpen: true,
+                index,
+              }))
             }
           >
             Detail
@@ -113,8 +146,11 @@ function Card({ pageData, setPageData }) {
   );
 }
 
-function InfoDialog({ pageData, setPageData }) {
+function InfoDialog({ open, detail, setPageData }) {
   const [modalRoot, setModalRoot] = useState(null);
+
+  const clean = DOMPurify.sanitize(detail.body);
+  console.log(clean);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -127,7 +163,7 @@ function InfoDialog({ pageData, setPageData }) {
         <div
           className={clsx(
             "w-screen h-screen fixed top-[50%] left-[50%] transform -translate-[50%] flex justify-center items-center z-30 bg-[#00000080]",
-            !pageData.isInfoDialogOpen && "hidden"
+            !open && "hidden"
           )}
           onClick={() =>
             setPageData((prev) => ({
@@ -137,7 +173,7 @@ function InfoDialog({ pageData, setPageData }) {
           }
         >
           <div
-            className="hidden-scrollbar w-[calc(100%*0.7)] h-[calc(100%*0.7)] flex flex-col border gap-2.5 p-4 rounded-2xl text-white font-bold overflow-y-scroll relative bg-[#092F22]"
+            className="hidden-scrollbar w-[calc(100%*0.7)] h-[calc(100%*0.7)] flex flex-col border gap-2.5 p-4 rounded-2xl overflow-y-scroll relative bg-[#092F22]"
             onClick={(e) => e.stopPropagation()}
           >
             <span
@@ -151,14 +187,7 @@ function InfoDialog({ pageData, setPageData }) {
             >
               X
             </span>
-            <h1>0.6% WEEKLY LIVE CASH REBATE</h1>
-            <p>
-              QQClubs, a leading Malaysia online casino, shines as a beacon of
-              excitement and opportunity in the ever-evolving online gaming
-              world. As we delve into the thrilling realm of the best online
-              casino sports betting, we can&apos;t help but recognize the
-              importance of having the right guide by your side.
-            </p>
+            <h1 dangerouslySetInnerHTML={{ __html: clean }}></h1>
             <p>
               We offer extensive online casino games, including blackjack and
               slot games, poker rooms, and even Las Vegas-style high roller
