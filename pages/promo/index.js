@@ -1,10 +1,12 @@
-import QQLayout from "@/layouts/QQLayout";
 import Image from "next/image";
-import { createPortal } from "react-dom";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { useMediaQuery } from "@mui/material";
-import DOMPurify from "isomorphic-dompurify";
+
 import clsx from "clsx";
+import DOMPurify from "isomorphic-dompurify";
+
+import QQLayout from "@/layouts/QQLayout";
 
 import data from "../../mock/mockData";
 
@@ -32,7 +34,6 @@ export default function Promo() {
     if (typeof window === "undefined") return;
 
     const body = window.document.body;
-
     if (pageData.isInfoDialogOpen === true) {
       body.classList = "overflow-hidden";
     } else {
@@ -69,6 +70,7 @@ export default function Promo() {
             ))
           : "loading..."}
       </div>
+
       <div className="w-full rounded-2xl p-6 flex flex-col gap-2.5 bg-[#092F22]">
         <h3 className="text-white">Promotional Terms & Conditions</h3>
         <p className="text-white">
@@ -97,8 +99,8 @@ export default function Promo() {
       </div>
       {pageData.isInfoDialogOpen && (
         <InfoDialog
-          detail={pageData.data.items[pageData.id]}
           open={pageData.isInfoDialogOpen}
+          detail={pageData.data.items[pageData.index]}
           setPageData={setPageData}
         />
       )}
@@ -130,8 +132,8 @@ function Card({ index, item, setPageData }) {
             onClick={() =>
               setPageData((prev) => ({
                 ...prev,
-                isInfoDialogOpen: true,
                 index,
+                isInfoDialogOpen: true,
               }))
             }
           >
@@ -149,70 +151,57 @@ function Card({ index, item, setPageData }) {
 function InfoDialog({ open, detail, setPageData }) {
   const [modalRoot, setModalRoot] = useState(null);
 
-  const clean = DOMPurify.sanitize(detail.body);
-  console.log(clean);
-
   useEffect(() => {
     if (typeof window === "undefined") return;
     const modalRoot = window.document.getElementById("modal-content");
     setModalRoot(modalRoot);
   }, []);
 
-  return modalRoot
-    ? createPortal(
+  return (
+    modalRoot &&
+    createPortal(
+      <div
+        className={clsx(
+          "w-screen h-screen fixed top-[50%] left-[50%] transform -translate-[50%] flex justify-center items-center z-30 bg-[#00000080]",
+          !open && "hidden"
+        )}
+        onClick={() =>
+          setPageData((prev) => ({
+            ...prev,
+            isInfoDialogOpen: false,
+          }))
+        }
+      >
         <div
-          className={clsx(
-            "w-screen h-screen fixed top-[50%] left-[50%] transform -translate-[50%] flex justify-center items-center z-30 bg-[#00000080]",
-            !open && "hidden"
-          )}
-          onClick={() =>
-            setPageData((prev) => ({
-              ...prev,
-              isInfoDialogOpen: false,
-            }))
-          }
+          className="hidden-scrollbar w-[calc(100%*0.7)] h-[calc(100%*0.7)] flex flex-col border gap-2.5 p-4 rounded-2xl overflow-y-scroll relative bg-[#092F22]"
+          onClick={(e) => e.stopPropagation()}
         >
-          <div
-            className="hidden-scrollbar w-[calc(100%*0.7)] h-[calc(100%*0.7)] flex flex-col border gap-2.5 p-4 rounded-2xl overflow-y-scroll relative bg-[#092F22]"
-            onClick={(e) => e.stopPropagation()}
+          <span
+            className="w-[20px] h-[20px] absolute top-[16px] right-[16px]"
+            onClick={() =>
+              setPageData((prev) => ({
+                ...prev,
+                isInfoDialogOpen: false,
+              }))
+            }
           >
-            <span
-              className="w-[20px] h-[20px] absolute top-[16px] right-[16px]"
-              onClick={() =>
-                setPageData((prev) => ({
-                  ...prev,
-                  isInfoDialogOpen: false,
-                }))
-              }
-            >
-              X
-            </span>
-            <h1 dangerouslySetInnerHTML={{ __html: clean }}></h1>
-            <p>
-              We offer extensive online casino games, including blackjack and
-              slot games, poker rooms, and even Las Vegas-style high roller
-              experiences for those seeking that extra thrill. Its safe and
-              secure platform sets us apart, offering real-time gameplay, online
-              sportsbook options, and live casino events featuring live dealer
-              games like blackjack and roulette.
-            </p>
-            <p>
-              While navigating this extraordinary realm, you will encounter many
-              bonuses, promotions, and payment options, such as credit cards.
-              This ensures that your experience is seamless, just like playing a
-              hand of video poker. The excellence of QQClubs extends beyond its
-              games, with exceptional customer service and 24/7 customer support
-              through live chat, guaranteeing that you&apos;re never alone in
-              your online gambling journey. So, fasten your seatbelts and embark
-              on an adventure as we explore how we can transform your betting
-              experience and elevate your chances of success in online sports
-              betting and casino gaming
-            </p>
-          </div>
-        </div>,
-        modalRoot
-      )
-    : "";
+            X
+          </span>
+          <h1
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(detail.excerpt),
+            }}
+          />
+          <p
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(detail.body),
+            }}
+          />
+        </div>
+      </div>,
+      modalRoot
+    )
+  );
 }
 
 Promo.getLayout = QQLayout;
