@@ -1,0 +1,43 @@
+.qq-theme-a {
+  --text-base: #092f22;
+  --text-primary: #ffbe2a;
+  --text-secondary: transparent;
+  --text-normal: #ffffff;
+
+  --text-100: #149063;
+  --text-200: #18543f;
+  --text-300: #9bc9b0;
+  --text-400: #77fb98;
+  --text-500: transparent;
+
+  --bg-base: #073926;
+  --bg-primary: #eba022;
+  --bg-secondary: #092f22;
+  --bg-normal: #092f22;
+
+  --bg-100: #092f22;
+  --bg-200: #18543e;
+  --bg-300: transparent;
+  --bg-400: transparent;
+  --bg-500: transparent;
+
+  --bg-success: #20413b;
+  --bg-error: #20413b;
+  --bg-warning: #20413b;
+  --bg-info: #20413b;
+
+  --border-success: #60c967;
+  --border-error: #fa8686;
+  --border-warning: #e1a834;
+  --border-info: #52b0f3;
+
+  --opacity-10: rgba(0, 0, 0, 0.1);
+  --opacity-50: rgba(0, 0, 0, 0.5);
+  --opacity-70: rgba(0, 0, 0, 0.7);
+  --opacity-90: rgba(0, 0, 0, 0.9);
+  --opacity-100: rgba(255, 255, 255, 0.75);
+  --opacity-200: rgba(255, 255, 255, 0.1);
+
+  --shadow-drop: transparent;
+  --shadow-inner: transparent;
+}
