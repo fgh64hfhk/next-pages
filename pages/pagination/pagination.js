@@ -67,7 +67,7 @@ export default function Pagination({
               return (
                 <span
                   key={`dot-${idx}`}
-                  className="w-full h-full px-3 py-1 rounded bg-gray-200 font-bold"
+                  className="w-full h-full px-3 py-1 rounded bg-gray-200 text-xl font-bold flex justify-center items-end"
                 >
                   ...
                 </span>
