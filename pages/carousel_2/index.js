@@ -1,15 +1,8 @@
 import QQLayout from "@/layouts/QQLayout";
-import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 
 export default function carousel_2() {
-  // const [pageData, setPageData] = useState({
-  //   firstGame: {},
-  //   displayGames: [],
-  //   allGames: [],
-  //   currentIdx: 0,
-  // });
 
   return (
     <div className="w-full flex flex-col gap-y-4 bg-[#073926]">
