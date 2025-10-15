@@ -52,3 +52,8 @@ body {
 .hidden-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+.scale-container {
+  container-type: inline-size;
+  container-name: fontContainer;
+}

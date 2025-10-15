@@ -10,19 +10,16 @@ export default function FooterMenu() {
   ];
   return (
     <div className="w-screen h-[60px] fixed left-0 bottom-0 flex items-center z-[50] bg-amber-100">
-      <div className="w-full h-full flex text-[24px]">
+      <div className="w-full h-full flex justify-between items-center">
         {items.map((item, idx) => (
-          <div key={item.id} className="flex-1 h-full bg-amber-200">
-            <button
-              className={clsx("w-full h-full flex items-center justify-center")}
-              onClick={() => console.log("clicked", item.id)}
-            >
-              <div className={clsx("flex flex-col items-center gap-1")}>
-                <div className="w-[18px] h-[4px] bg-black" />
-                <div>{item.label}</div>
-              </div>
-            </button>
-          </div>
+          <button
+            key={item.id}
+            className="w-[25%] h-full flex flex-col justify-center items-center gap-1"
+            onClick={() => console.log("clicked", item.id)}
+          >
+            <div className="w-[5vw] h-[0.5vw] bg-black" />
+            <div className="text-[3vw]">{item.label}</div>
+          </button>
         ))}
       </div>
     </div>
