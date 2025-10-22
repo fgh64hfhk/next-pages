@@ -6,7 +6,7 @@ export default function RootLayout(page) {
       <header className="w-full h-[60px] flex sticky top-0 items-center bg-amber-100 z-10">
         <div className={clsx(
           "w-[260px] h-[60px] shrink-0 items-end px-[20px] bg-amber-200 text-black",
-          true ? "hidden" : "flex"
+          false ? "hidden" : "flex"
         )}>
           <button className="w-[50px] h-[50px] bg-black text-white">
             Switch

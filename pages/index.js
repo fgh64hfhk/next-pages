@@ -1,10 +1,11 @@
+import QQLayout from "@/layouts/QQLayout";
 import RootLayout from "@/layouts/RootLayout";
 
 export default function Home() {
   const N = 5;
   const slots = N + 1;
   return (
-    <div className="w-[500px] h-[500px]">
+    <div className="w-full h-[100dvh]">
       <div className="h-full flex flex-col justify-center items-center bg-amber-500">
         <div className="w-full h-[300px] relative">
           {Array.from({ length: 5 }).map((_, idx) => {
@@ -32,4 +33,4 @@ export default function Home() {
   );
 }
 
-Home.getLayout = RootLayout;
+Home.getLayout = QQLayout;

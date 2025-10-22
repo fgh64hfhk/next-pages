@@ -1,220 +1,26 @@
-import { useState } from "react";
-import { InputLabel, Select, MenuItem } from "@mui/material";
+import { useState, useMemo } from "react";
 
-import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
+import { InputLabel, Select, MenuItem } from "@mui/material";
+
+import providers from "@/mock/providers";
+import products from "@/mock/products";
+
 import RootLayout from "@/layouts/RootLayout";
+import QQLayout from "@/layouts/QQLayout";
+import dayjs from "dayjs";
 
 const DAY_OPTIONS = ["TD", "3D", "7D", "1M", "3M"];
 
-const OPTIONS = [
-  { value: "a", name: "a1" },
-  { value: "b", name: "b1" },
-  { value: "c", name: "c1" },
-  { value: "d", name: "d1" },
-  { value: "e", name: "e1" },
-];
-
-const PROVIDERS = [
-  {
-    id: 1,
-    code: "aaa",
-    name: "Alpha Gaming",
-    index: "aaa#aaa",
-    image: "https://dummy.img/alpha.png",
-  },
-  {
-    id: 2,
-    code: "bbb",
-    name: "Beta Play",
-    index: "bbb#bbb",
-    image: "https://dummy.img/beta.png",
-  },
-  {
-    id: 3,
-    code: "ccc",
-    name: "Cosmos Casino",
-    index: "ccc#ccc",
-    image: "https://dummy.img/cosmos.png",
-  },
-  {
-    id: 4,
-    code: "ddd",
-    name: "Delta Entertainment",
-    index: "ddd#ddd",
-    image: "https://dummy.img/delta.png",
-  },
-  {
-    id: 5,
-    code: "eee",
-    name: "Epsilon Studio",
-    index: "eee#eee",
-    image: "https://dummy.img/epsilon.png",
-  },
-  {
-    id: 6,
-    code: "fff",
-    name: "Fantasy Games",
-    index: "fff#fff",
-    image: "https://dummy.img/fantasy.png",
-  },
-  {
-    id: 7,
-    code: "ggg",
-    name: "Galaxy Slots",
-    index: "ggg#ggg",
-    image: "https://dummy.img/galaxy.png",
-  },
-  {
-    id: 8,
-    code: "hhh",
-    name: "Hero Gaming",
-    index: "hhh#hhh",
-    image: "https://dummy.img/hero.png",
-  },
-  {
-    id: 9,
-    code: "iii",
-    name: "Infinity Play",
-    index: "iii#iii",
-    image: "https://dummy.img/infinity.png",
-  },
-  {
-    id: 10,
-    code: "jjj",
-    name: "Jupiter Games",
-    index: "jjj#jjj",
-    image: "https://dummy.img/jupiter.png",
-  },
-];
-
-const PRODUCTS = [
-  {
-    key: "sports",
-    name: "Sports",
-  },
-  {
-    key: "casino",
-    name: "Live Casino",
-  },
-  {
-    key: "slot",
-    name: "Slot",
-  },
-  {
-    key: "lottery",
-    name: "Lottery",
-  },
-  {
-    key: "poker",
-    name: "Poker",
-  },
-  {
-    key: "fish",
-    name: "Fishing Games",
-  },
-  {
-    key: "arcade",
-    name: "Arcade",
-  },
-  {
-    key: "esport",
-    name: "E-Sports",
-  },
-  {
-    key: "keno",
-    name: "Keno",
-  },
-  {
-    key: "virtual",
-    name: "Virtual Games",
-  },
-];
-
-const RECORD_CONDITION_LIST = {
-  A: {
-    name: "A",
-    f: [
-      {
-        condition: "Status",
-        options: OPTIONS,
-      },
-    ],
-  },
-  B: {
-    name: "B",
-    f: [
-      {
-        condition: "Status",
-        options: OPTIONS,
-      },
-    ],
-  },
-  C: {
-    name: "C",
-    f: [
-      {
-        condition: "providers",
-        options: [
-          {
-            value: "all",
-            name: "all",
-          },
-          ...PROVIDERS.map((v) => ({
-            value: v.code,
-            name: v.name,
-          })),
-        ],
-      },
-      {
-        condition: "products",
-        options: [
-          {
-            value: "all",
-            name: "all",
-          },
-          ...PRODUCTS.map((v) => ({
-            value: v.code,
-            name: v.name,
-          })),
-        ],
-      },
-    ],
-  },
-  D: {
-    name: "D",
-    f: [
-      {
-        condition: "Status",
-        options: OPTIONS,
-      },
-    ],
-  },
-  ...(true
-    ? {
-        E: {
-          name: "E",
-          f: [
-            {
-              condition: "Status",
-              options: OPTIONS,
-            },
-          ],
-        },
-        F: {
-          name: "F",
-          f: [
-            {
-              condition: "Status",
-              options: OPTIONS,
-            },
-          ],
-        },
-      }
-    : {}),
+const STATUS_MAP = {
+  New: "var(--border-info)",
+  Processing: "var(--border-warning)",
+  Success: "var(--border-success)",
+  Approved: "var(--border-success)",
+  Rejected: "var(--border-error)",
 };
 
 const record = {
@@ -230,29 +36,125 @@ const record = {
 };
 
 export default function Records({ nowISO }) {
-  const [tab, setTab] = useState("A");
+  const [pageData, setPageData] = useState({
+    tab: "deposit",
+    day: "TD",
+    startTime: dayjs().startOf("day"),
+    endTime: dayjs().endOf("day"),
+    selectedTime: [],
+    status: "all",
+    type: "all",
+    providers: "all",
+    products: "all",
+    records: [],
+    total_receive: [],
+    currentPage: 1,
+    total: 0,
+    per_page: 0,
+    last_page: 0,
+  });
 
-  const [value, setValue] = useState(dayjs("2025-09-22"));
+  const STATUS_OPTIONS = useMemo(
+    () => [
+      { value: "all", name: "all" },
+      { value: "new", name: "new" },
+      { value: "processing", name: "processing" },
+      { value: "approved", name: "approved" },
+      { value: "rejected", name: "rejected" },
+    ],
+    []
+  );
+
+  const BONUS_TYPE_OPTIONS = useMemo(
+    () => [
+      { value: "all", name: "all" },
+      { value: "promo", name: "promo" },
+      { value: "reward", name: "reward" },
+      { value: "vip", name: "vip" },
+      { value: "mission", name: "mission" },
+    ],
+    []
+  );
+
+  const REBATE_TYPE_OPTIONS = useMemo(
+    () => [
+      { value: "all", name: "all" },
+      { value: "daily", name: "daily" },
+      { value: "weekly", name: "weekly" },
+    ],
+    []
+  );
+
+  const RECORD_CONDITION_LIST = useMemo(
+    () => ({
+      deposit: {
+        name: "deposit",
+        filters: [{ condition: "status", options: STATUS_OPTIONS }],
+      },
+      withdraw: {
+        name: "withdraw",
+        filters: [{ condition: "status", options: STATUS_OPTIONS }],
+      },
+      bets: {
+        name: "bets",
+        filters: [
+          {
+            condition: "providers",
+            options: [
+              { value: "all", name: "all" },
+              ...providers.map((v) => ({
+                value: v.index,
+                name: v.name,
+              })),
+            ],
+          },
+          {
+            condition: "products",
+            options: [
+              { value: "all", name: "all" },
+              ...products.map((v) => ({
+                value: v.key,
+                name: v.name,
+              })),
+            ],
+          },
+        ],
+      },
+      bonus: {
+        name: "bonus",
+        filters: [{ condition: "type", options: BONUS_TYPE_OPTIONS }],
+      },
+      refer: {
+        name: "refer",
+        filters: [],
+      },
+      rebate: {
+        name: "rebate",
+        filters: [{ condition: "type", options: REBATE_TYPE_OPTIONS }],
+      },
+    }),
+    [BONUS_TYPE_OPTIONS, REBATE_TYPE_OPTIONS, STATUS_OPTIONS]
+  );
 
   return (
     // root
-    <div className="w-full h-full flex flex-col gap-y-2 bg-amber-500">
+    <div className="w-full h-full flex flex-col gap-y-2">
       {/* Title */}
-      <div className="flex flex-col gap-2 p-4 bg-amber-300">
+      <div className="flex flex-col gap-2 p-4">
         <h2 className="text-[24px] text-black font-bold">Record</h2>
         <p className="text-[18px] text-black font-semiboldbold">Note_Record</p>
       </div>
 
       {/* Main */}
-      <div className="flex flex-col gap-y-3 p-4 bg-amber-300">
+      <div className="flex flex-col gap-y-3 p-4">
         {/* 篩選列容器 */}
         <div className="w-full flex gap-2">
           {/* 交易類型選擇器（Select） */}
           <div className="w-full">
             <InputLabel>Transaction Type:</InputLabel>
             <Select
-              defaultValue={tab}
-              onChange={(e) => setTab((prev) => e.target.value)}
+              defaultValue={pageData.tab}
+              onChange={(e) => setPageData((prev) => ({ ...prev, tab: e.target.value}))}
               sx={{
                 minWidth: 200,
               }}
@@ -267,11 +169,13 @@ export default function Records({ nowISO }) {
             </Select>
           </div>
           {/* 動態條件群（map） */}
-          {RECORD_CONDITION_LIST[tab].f.map((item, idx) => (
+          {RECORD_CONDITION_LIST[pageData.tab].filters.map((item, idx) => (
             <div key={idx} className="w-full">
               <InputLabel>{item.condition}</InputLabel>
               <Select
-                defaultValue={RECORD_CONDITION_LIST[tab].f[0].options[0].value}
+                defaultValue={
+                  RECORD_CONDITION_LIST[pageData.tab].filters[0].options[0].value
+                }
                 sx={{
                   minWidth: 200,
                 }}
@@ -290,8 +194,8 @@ export default function Records({ nowISO }) {
             <InputLabel>From:</InputLabel>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
-                value={value}
-                onChange={(newValue) => setValue(newValue)}
+                value={pageData.startTime}
+                onChange={(newValue) => setPageData((prev) => ({ ...prev, startTime: newValue}))}
                 sx={{
                   "& .MuiPickersInputBase-root": { width: "200px" },
                 }}
@@ -304,8 +208,8 @@ export default function Records({ nowISO }) {
             <InputLabel>To:</InputLabel>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
-                value={value}
-                onChange={(newValue) => setValue(newValue)}
+                value={pageData.endTime}
+                onChange={(newValue) => setPageData((prev) => ({ ...prev, endTime: newValue}))}
                 sx={{
                   "& .MuiPickersInputBase-root": { width: "200px" },
                 }}
@@ -396,4 +300,4 @@ export async function getServerSideProps() {
   };
 }
 
-Records.getLayout = RootLayout;
+Records.getLayout = QQLayout;
