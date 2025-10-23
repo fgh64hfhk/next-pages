@@ -29,7 +29,7 @@ export default function SideMenu() {
       )}
     >
       <button
-        className="h-[70px]"
+        className="h-[70px] text-white"
         onClick={() =>
           setPageData((prev) => ({
             ...prev,

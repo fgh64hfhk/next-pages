@@ -12,6 +12,7 @@ import products from "@/mock/products";
 import RootLayout from "@/layouts/RootLayout";
 import QQLayout from "@/layouts/QQLayout";
 import dayjs from "dayjs";
+import DatePickerField from "@/components/date_picker_field";
 
 const DAY_OPTIONS = ["TD", "3D", "7D", "1M", "3M"];
 
@@ -188,6 +189,10 @@ export default function Records({ nowISO }) {
               </Select>
             </div>
           ))}
+
+          <div className="w-full">
+            <DatePickerField />
+          </div>
 
           {/* 起始時間（DateTimePicker） */}
           <div className="w-full">
