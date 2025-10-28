@@ -57,3 +57,24 @@ body {
   container-type: inline-size;
   container-name: fontContainer;
 }
+
+@keyframes hintAnim {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(20px);
+  }
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 10px 3px #6ed841;
+    transform: scale(1);
+  }
+
+  to {
+    box-shadow: 0 0 0 3px #6ed841;
+    transform: scale(1.1);
+  }
+}
