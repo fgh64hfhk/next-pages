@@ -23,6 +23,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      countup.js:
+        specifier: ^2.9.0
+        version: 2.9.0
       dayjs:
         specifier: ^1.11.18
         version: 1.11.18
@@ -47,6 +50,9 @@ importers:
       next:
         specifier: 15.5.3
         version: 15.5.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      odometer_countup:
+        specifier: ^1.0.4
+        version: 1.0.4
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -1056,6 +1062,9 @@ packages:
     resolution: {integrity: sha512-AdmX6xUzdNASswsFtmwSt7Vj8po9IuqXm0UXz7QKPuEUmPB4XyjGfaAr2PSuELMwkRMVH1EpIkX5bTZGRB3eCA==}
     engines: {node: '>=10'}
 
+  countup.js@2.9.0:
+    resolution: {integrity: sha512-llqrvyXztRFPp6+i8jx25phHWcVWhrHO4Nlt0uAOSKHB8778zzQswa4MU3qKBvkXfJKftRYFJuVHez67lyKdHg==}
+
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
@@ -1893,6 +1902,9 @@ packages:
   object.values@1.2.1:
     resolution: {integrity: sha512-gXah6aZrcUxjWg2zR2MwouP2eHlCBzdV4pygudehaKXSGW4v2AsRQUK+lwwXhii6KFZcunEnmSUoYp5CXibxtA==}
     engines: {node: '>= 0.4'}
+
+  odometer_countup@1.0.4:
+    resolution: {integrity: sha512-Hocyn8Do00H0VKB+c1vKaZU9isMLw9jZJVBuywdr+tU4PojqRwDY0xWWbUH4byz/hOcsCr+vNEmC2UOn+37wrA==}
 
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
@@ -3307,6 +3319,8 @@ snapshots:
       path-type: 4.0.0
       yaml: 1.10.2
 
+  countup.js@2.9.0: {}
+
   cross-spawn@7.0.6:
     dependencies:
       path-key: 3.1.1
@@ -4302,6 +4316,10 @@ snapshots:
       call-bound: 1.0.4
       define-properties: 1.2.1
       es-object-atoms: 1.1.1
+
+  odometer_countup@1.0.4:
+    dependencies:
+      countup.js: 2.9.0
 
   optionator@0.9.4:
     dependencies:
