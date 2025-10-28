@@ -45,15 +45,15 @@ export default function SideMenu() {
       </button>
 
       <aside className="h-[70px]">
-        <button class="flex items-center justify-center gap-[12px]">
-          <svg viewBox="0 0 30 30" class="w-[24px] h-[24px] fill-[#9BC9B0]">
+        <button className="flex items-center justify-center gap-[12px]">
+          <svg viewBox="0 0 30 30" className="w-[24px] h-[24px] fill-[#9BC9B0]">
             <path
-              fill-rule="evenodd"
+              fillRule="evenodd"
               d="M13.94.44a1.5 1.5 0 0 1 2.12 0l13.5 13.5a1.5 1.5 0 0 1-2.12 2.12l-.44-.439V28.5a1.5 1.5 0 0 1-1.5 1.5H18a1.5 1.5 0 0 1-1.5-1.5v-6h-3v6A1.5 1.5 0 0 1 12 30H4.5A1.5 1.5 0 0 1 3 28.5V15.621l-.44.44a1.5 1.5 0 0 1-2.12-2.122z"
-              clip-rule="evenodd"
+              clipRule="evenodd"
             ></path>
           </svg>
-          <span class="text-[14px] text-[#9BC9B0]">Home</span>
+          <span className="text-[14px] text-[#9BC9B0]">Home</span>
         </button>
       </aside>
     </div>
