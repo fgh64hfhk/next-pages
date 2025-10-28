@@ -154,8 +154,8 @@ export default function Lottery() {
                 id="ring1-shadow"
                 style={{ opacity: armState.ringShadowOpacity }}
                 className={clsx(
-                  transitionClass,
-                  "bg-[linear-gradient(to_bottom,_rgba(149,149,149,0.2)_0%,_rgba(13,13,13,0.18)_46%,_rgba(1,1,1,0.18)_50%,_rgba(10,10,10,0.18)_53%,_rgba(78,78,78,0.17)_76%,_rgba(56,56,56,0.16)_87%,_rgba(27,27,27,0.15)_100%)] rounded-[5px]",
+                  "transition duration-[380ms] ease-in-out",
+                  "bg-[linear-gradient(to_bottom,_rgba(149,149,149,0.2)_0%,_rgba(13,13,13,0.18)_46%,_rgba(1,1,1,0.18)_50%,_rgba(10,10,10,0.18)_53%,_rgba(78,78,78,0.15)_76%,_rgba(56,56,56,0.10)_87%,_rgba(27,27,27,0.05)_100%)] rounded-[5px]",
                   "absolute h-[50%] w-[10px] left-[1px] top-0"
                 )}
               />
@@ -171,9 +171,9 @@ export default function Lottery() {
                 id="ring2-shadow"
                 style={{ opacity: armState.ringShadowOpacity }}
                 className={clsx(
-                  transitionClass,
+                  "transition duration-[380ms] ease-in-out",
                   "bg-[linear-gradient(to_bottom,_rgba(149,149,149,0.15)_0%,_rgba(13,13,13,0.15)_46%,_rgba(1,1,1,0.15)_50%,_rgba(10,10,10,0.15)_53%,_rgba(78,78,78,0.15)_76%,_rgba(56,56,56,0.15)_87%,_rgba(27,27,27,0.15)_100%)] rounded-[5px]",
-                  "absolute h-[50%] w-[10px] left-[4px] top-0 z-10"
+                  "absolute h-[50%] w-[10px] left-0 top-0 z-10"
                 )}
               />
             </div>
