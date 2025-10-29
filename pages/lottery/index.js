@@ -1,6 +1,9 @@
 import QQLayout from "@/layouts/QQLayout";
-import clsx from "clsx";
+import SpeedoMeter from "@/components/SpeedoMeter";
+
 import { useState } from "react";
+
+import clsx from "clsx";
 
 // 定義初始動畫狀態
 const initialArmState = {
@@ -86,25 +89,8 @@ export default function Lottery() {
           >
             幸運號碼
           </div>
-          <div
-            id="generator"
-            className="flex justify-center items-center w-full"
-          >
-            {numbers.map((number, idx) => (
-              <div
-                key={idx}
-                id={`number-${idx + 1}`}
-                className={clsx(
-                  "generator-number",
-                  "w-[70px] h-[70px] rounded-[50px] shadow-[0_0_10px_3px_#6ed841]",
-                  "flex justify-center items-center text-[40px] font-[500] mx-[15px]",
-                  "animate-[glow_1s_infinite_alternate] bg-amber-50"
-                )}
-              >
-                {number}
-              </div>
-            ))}
-          </div>
+
+          <SpeedoMeter value={numbers} speed={800} delay={1000} />
 
           {/* 觸發器綁定事件和動畫狀態 */}
           <div
@@ -178,6 +164,7 @@ export default function Lottery() {
               />
             </div>
           </div>
+          
           <div
             id="slot-trigger-hint"
             className={clsx(

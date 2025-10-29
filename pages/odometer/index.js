@@ -1,10 +1,15 @@
 import QQLayout from "@/layouts/QQLayout";
-import { useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+
+import SpeedoMeter from "@/components/SpeedoMeter";
 
 export default function OdometerDemo({ initial = 7000 }) {
   const elRef = useRef(null); // 綁定到 <h1>
   const countUpRef = useRef(null); // 保存 CountUp 實例
   const modulesLoadedRef = useRef(false); // 只載入一次
+
+  const [numbers, setNumbers] = useState([0, 0, 0, 0]);
+  const generateSingleNumber = () => Math.floor(Math.random() * 9) + 1;
 
   // 初始化（只在 client 執行）
   useEffect(() => {
@@ -121,6 +126,25 @@ export default function OdometerDemo({ initial = 7000 }) {
       </div>
 
       <p>CountUp with React (optimized)</p>
+
+      <hr />
+
+      <div className="w-full h-[150px] justify-center items-center p-3 text-white">
+        <button
+          onClick={() => {
+            setNumbers([
+              generateSingleNumber(),
+              generateSingleNumber(),
+              generateSingleNumber(),
+              generateSingleNumber(),
+            ]);
+          }}
+        >
+          Random
+        </button>
+      </div>
+
+      <SpeedoMeter value={numbers} />
     </div>
   );
 }
