@@ -43,7 +43,7 @@ export default function QQLayout(page) {
           </footer>
         </div>
 
-        <ShoppingCart />
+        {/* <ShoppingCart /> */}
       </div>
     </main>
   );
