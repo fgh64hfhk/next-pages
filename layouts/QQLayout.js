@@ -1,28 +1,10 @@
 import { useState } from "react";
 import { useMediaQuery } from "@mui/material";
 
-import { ListIndentIncrease, ListIndentDecrease } from "lucide-react";
-
-import HomeSVG from "@/assets/qq/icons/home.svg";
-import CasinoSVG from "@/assets/qq/icons/casino.svg";
-import SlotsSvg from "@/assets/qq/icons/slots.svg";
-import SportsSvg from "@/assets/qq/icons/sports.svg";
-import LotterySVG from "@/assets/qq/icons/lottery.svg";
-import FishingSVG from "@/assets/qq/icons/fish.svg";
-import PromotionSVG from "@/assets/qq/icons/promo.svg";
-
-import clsx from "clsx";
 import SideMenu from "@/components/SideMenu";
-// import SideMenu from "@/components/next_side_menu_component";
 import ShoppingCart from "@/components/ShoppingCart";
 
 export default function QQLayout(page) {
-  const isLessThan768 = useMediaQuery("(max-width: 768px)");
-
-  const [pageData, setPageData] = useState({
-    isSidebarOpen: true,
-  });
-
   return (
     <main className="w-full">
       <div className="w-full flex">
@@ -43,7 +25,7 @@ export default function QQLayout(page) {
           </footer>
         </div>
 
-        {/* <ShoppingCart /> */}
+        <ShoppingCart />
       </div>
     </main>
   );

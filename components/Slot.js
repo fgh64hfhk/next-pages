@@ -22,7 +22,7 @@ export default function Slot({ parentWidth }) {
         transformOrigin: "center",
       }}
     >
-      <h2 className="text-white text-xl">全馬最高彩票賠率</h2>
+      <h2 className="text-black text-xl">全馬最高彩票賠率</h2>
       <div
         className={clsx(
           "flex flex-col gap-2 relative",

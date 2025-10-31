@@ -35,8 +35,8 @@ export default function Lottery_2() {
       <div
         ref={bannerWidthRef}
         className={clsx(
-          "w-full aspect-[393/123] md:aspect-[1330/347] rounded-xl",
-          "bg-amber-50"
+          "w-full aspect-auto md:aspect-video rounded-xl bg-amber-50",
+          "flex justify-center items-center"
         )}
       >
         {bannerWidth > 0 && <Slot parentWidth={bannerWidth} />}
