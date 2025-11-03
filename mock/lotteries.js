@@ -4,6 +4,7 @@ const data = {
       name: "sgp",
       image: "https://qq.stobjs.com/qqc/4d_icon/sgp.png",
       date: "2025-10-26 (Sun)",
+      backgroundColor: "bg-[#53BEF0]",
       result: {
         top_prizes: [
           {
@@ -61,7 +62,7 @@ const data = {
             value: "9470",
           },
         ],
-        consolation_prize: [
+        consolation_prizes: [
           {
             position: "1",
             value: "0962",
@@ -109,6 +110,7 @@ const data = {
       name: "sabah88",
       image: "https://qq.stobjs.com/qqc/4d_icon/sabah88.png",
       date: "2025-10-26 (Sun)",
+      backgroundColor: "bg-[#EA2A2E]",
       result: {
         top_prizes: [
           {
@@ -166,7 +168,7 @@ const data = {
             value: "9124",
           },
         ],
-        consolation_prize: [
+        consolation_prizes: [
           {
             position: "1",
             value: "6848",
@@ -214,6 +216,7 @@ const data = {
       name: "sdk",
       image: "https://qq.stobjs.com/qqc/4d_icon/sdk.png",
       date: "2025-10-26 (Sun)",
+      backgroundColor: "bg-[#35AE45]",
       result: {
         top_prizes: [
           {
@@ -271,7 +274,7 @@ const data = {
             value: "9277",
           },
         ],
-        consolation_prize: [
+        consolation_prizes: [
           {
             position: "1",
             value: "3197",
@@ -319,6 +322,7 @@ const data = {
       name: "cashs",
       image: "https://qq.stobjs.com/qqc/4d_icon/cashs.png",
       date: "2025-10-26 (Sun)",
+      backgroundColor: "bg-[#FFDB4D]",
       result: {
         top_prizes: [
           {
@@ -376,7 +380,7 @@ const data = {
             value: "6056",
           },
         ],
-        consolation_prize: [
+        consolation_prizes: [
           {
             position: "1",
             value: "3558",
@@ -424,6 +428,7 @@ const data = {
       name: "damacai",
       image: "https://qq.stobjs.com/qqc/4d_icon/damacai.png",
       date: "2025-10-26 (Sun)",
+      backgroundColor: "bg-[#1541F1]",
       result: {
         top_prizes: [
           {
@@ -481,7 +486,7 @@ const data = {
             value: "2334",
           },
         ],
-        consolation_prize: [
+        consolation_prizes: [
           {
             position: "1",
             value: "7529",
@@ -529,6 +534,7 @@ const data = {
       name: "magnum",
       image: "https://qq.stobjs.com/qqc/4d_icon/magnum.png",
       date: "2025-10-26 (Sun)",
+      backgroundColor: "bg-[#FFDB4D]",
       result: {
         top_prizes: [
           {
@@ -586,7 +592,7 @@ const data = {
             value: "9969",
           },
         ],
-        consolation_prize: [
+        consolation_prizes: [
           {
             position: "1",
             value: "9461",
@@ -634,6 +640,7 @@ const data = {
       name: "toto",
       image: "https://qq.stobjs.com/qqc/4d_icon/toto.png",
       date: "2025-10-26 (Sun)",
+      backgroundColor: "bg-[#EA2A2E]",
       result: {
         top_prizes: [
           {
@@ -691,7 +698,7 @@ const data = {
             value: "0312",
           },
         ],
-        consolation_prize: [
+        consolation_prizes: [
           {
             position: "1",
             value: "9406",
@@ -739,6 +746,7 @@ const data = {
       name: "gdl",
       image: "https://qq.stobjs.com/qqc/4d_icon/gdl.png",
       date: "2025-10-27 (Mon)",
+      backgroundColor: "bg-[#AFAF13]",
       result: {
         top_prizes: [
           {
@@ -796,7 +804,7 @@ const data = {
             value: "4253",
           },
         ],
-        consolation_prize: [
+        consolation_prizes: [
           {
             position: "1",
             value: "7317",
@@ -844,6 +852,7 @@ const data = {
       name: "nine",
       image: "https://qq.stobjs.com/qqc/4d_icon/nine.png",
       date: "2025-10-27 (Mon)",
+      backgroundColor: "bg-[#FFA215]",
       result: {
         top_prizes: [
           {
@@ -901,7 +910,7 @@ const data = {
             value: "3300",
           },
         ],
-        consolation_prize: [
+        consolation_prizes: [
           {
             position: "1",
             value: "2079",

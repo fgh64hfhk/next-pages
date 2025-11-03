@@ -41,6 +41,7 @@ export default function Lottery_2() {
       >
         {bannerWidth > 0 && <Slot parentWidth={bannerWidth} />}
       </div>
+      
     </div>
   );
 }

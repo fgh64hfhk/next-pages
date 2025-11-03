@@ -1,7 +1,10 @@
 import QQLayout from "@/layouts/QQLayout";
+import Slot from "@/components/Slot";
+
 import data from "@/mock/lotteries";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+
+import { useState, useEffect, useRef } from "react";
 
 const splitLotteryData = (apiData) => {
   const basicInfoArray = [];
@@ -10,13 +13,13 @@ const splitLotteryData = (apiData) => {
   const consolationPrizesArray = [];
 
   apiData.forEach((lottery) => {
-    const { name, date, image, bgColor, result } = lottery;
+    const { name, date, image, backgroundColor, result } = lottery;
 
     basicInfoArray.push({
       name: name,
       date: date,
       image: image,
-      bgColor: bgColor,
+      bgColor: backgroundColor,
     });
 
     if (result && result.top_prizes) {
@@ -42,7 +45,7 @@ const splitLotteryData = (apiData) => {
     if (result && result.consolation_prize) {
       consolationPrizesArray.push({
         name: name,
-        consolation_prizes: result.consolation_prize.map((p) => ({
+        consolation_prizes: result.consolation_prizes.map((p) => ({
           position: p.position,
           value: p.value,
         })),
@@ -57,18 +60,6 @@ const splitLotteryData = (apiData) => {
     consolationPrizes: consolationPrizesArray,
   };
 };
-
-const bannerColor = [
-  "bg-[#53BEF0]",
-  "bg-[#EA2A2E]",
-  "bg-[#35AE45]",
-  "bg-[#FFDB4D]",
-  "bg-[#1541F1]",
-  "bg-[#FFDB4D]",
-  "bg-[#EA2A2E]",
-  "bg-[#AFAF13]",
-  "bg-[#FFA215]",
-];
 
 const PrizeList = ({ lotteryName, prizes, prizeKey }) => {
   // 檢查 prizes 是否存在且是陣列
@@ -94,6 +85,9 @@ const PrizeList = ({ lotteryName, prizes, prizeKey }) => {
 export default function Lottery_3() {
   const [pageData, setPageData] = useState({});
 
+  const bannerWidthRef = useRef(null);
+  const [bannerWidth, setBannerWidth] = useState(0);
+
   const [basicInfo, setBasicInfo] = useState([]);
   const [topPrizes, setTopPrizes] = useState([]);
   const [specialPrizes, setSpecialPrizes] = useState([]);
@@ -109,14 +103,36 @@ export default function Lottery_3() {
     setConsolationPrizes(consolationPrizes);
   }, []);
 
+  useEffect(() => {
+    if (!bannerWidthRef) return;
+
+    const handleResize = () => {
+      // 確保 current 存在
+      if (bannerWidthRef.current) {
+        setBannerWidth(bannerWidthRef.current.clientWidth);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <div className="w-full h-[100dvh] flex flex-col items-center">
       <div
+        ref={bannerWidthRef}
         className={clsx(
-          "w-full aspect-video md:aspect-auto rounded-xl",
-          "bg-amber-50"
+          "w-full aspect-video md:aspect-auto rounded-xl bg-amber-50",
+          "flex justify-center items-center"
         )}
-      ></div>
+      >
+        {bannerWidth > 0 && <Slot parentWidth={bannerWidth} />}
+      </div>
 
       {/* --- 區塊一: 基本資訊 (Name & Date) --- */}
       <h2>📅 基本資訊</h2>
