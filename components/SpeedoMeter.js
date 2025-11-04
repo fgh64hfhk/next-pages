@@ -1,18 +1,19 @@
 import clsx from "clsx";
 
 export default function SpeedoMeter({
-  value,
-  speed = 1000,
-  delay = 500,
-  size = 36,
-  color = "black",
-  easing = "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+  targetDigits,
+  spinGearLevel = 5,
+  startDelayMs = 500,
+  fontSize = 40,
+  textColor = "black",
+  timingFunction = "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
 }) {
-  const digitArray = value;
+  const BASE_TIME_MS = 3500;
+  const actualSpeedMs = Math.round(BASE_TIME_MS / spinGearLevel);
 
   return (
     <div className="w-[25em] h-full flex justify-between items-center">
-      {digitArray.map((val, idx) => (
+      {targetDigits.map((val, idx) => (
         <div
           key={idx}
           className={clsx(
@@ -21,24 +22,22 @@ export default function SpeedoMeter({
             "animate-[glow_1s_infinite_alternate]"
           )}
         >
-          {/* 遮罩 */}
           <div
             className="overflow-hidden"
             style={{
-              height: `${size}px`,
+              height: `${fontSize}px`,
             }}
           >
             <div
               className="flex flex-col"
               style={{
-                height: `${size}px`,
-                fontSize: `${size}px`,
-                lineHeight: `${size}px`,
-                color: color,
-                // marginTop: `-${val}em`,
-                marginTop: `-${val * size}px`,
-                transition: `margin-top ${speed}ms ${easing}`,
-                transitionDelay: `${idx * delay}ms`,
+                height: `${fontSize}px`,
+                fontSize: `${fontSize}px`,
+                lineHeight: `${fontSize}px`,
+                color: textColor,
+                marginTop: `-${val * fontSize}px`,
+                transition: `margin-top ${actualSpeedMs}ms ${timingFunction}`,
+                transitionDelay: `${idx * startDelayMs}ms`,
               }}
             >
               {Array.from({ length: 10 }).map((_, idx) => (
