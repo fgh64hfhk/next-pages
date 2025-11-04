@@ -1,12 +1,10 @@
-import { useState } from "react";
 import clsx from "clsx";
 
 import SpeedoMeter from "@/components/SpeedoMeter";
 import SlotArm from "@/components/SlotArm";
 import SlotHint from "@/components/SlotHint";
 
-export default function Slot({ parentWidth }) {
-  const [numbers, setNumbers] = useState([0, 0, 0, 0]);
+export default function Slot({ parentWidth, numbers, setNumbers }) {
   const basicScaleRatio = 430 / 1248;
 
   let scaleRatio = 1;

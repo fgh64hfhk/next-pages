@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { useMediaQuery } from "@mui/material";
 import { ListIndentIncrease, ListIndentDecrease } from "lucide-react";
 import clsx from "clsx";
 
 export default function ShoppingCart() {
-  const isLessThan768 = useMediaQuery("(max-width: 768px)");
   const [pageData, setPageData] = useState({
     isSidebarOpen: false,
   });
@@ -12,7 +10,8 @@ export default function ShoppingCart() {
   return (
     <div
       className={clsx(
-        "flex flex-col gap-5 shrink-0 sticky top-0 transition-all duration-300 bg-[#092F22]",
+        "hidden md:flex md:flex-col gap-5 shrink-0 sticky top-0 bg-[#092F22]",
+        "transition-all duration-300",
         pageData.isSidebarOpen
           ? "w-[224px] items-start px-5"
           : "w-[64px] items-center"

@@ -61,29 +61,13 @@ const splitLotteryData = (apiData) => {
   };
 };
 
-const PrizeList = ({ lotteryName, prizes, prizeKey }) => {
-  // 檢查 prizes 是否存在且是陣列
-  const prizeArray = prizes[prizeKey];
-  if (!prizeArray || !Array.isArray(prizeArray)) {
-    return <div>No prize data available for {lotteryName}.</div>;
-  }
-
-  return (
-    <div className="prize-list-container">
-      **{lotteryName}** ({prizeKey.replace(/_/g, " ").toUpperCase()}):
-      <ul style={{ listStyleType: "none", paddingLeft: 10 }}>
-        {prizeArray.map((p) => (
-          <li key={p.position} style={{ marginBottom: 4 }}>
-            **#{p.position}**: {p.value}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
-
 export default function Lottery_3() {
-  const [pageData, setPageData] = useState({});
+  const [pageData, setPageData] = useState({
+    tabs: ["Result", "Payout Table", "Bet Now"],
+    selectedTab: "Result",
+  });
+
+  const [numbers, setNumbers] = useState([0, 0, 0, 0]);
 
   const bannerWidthRef = useRef(null);
   const [bannerWidth, setBannerWidth] = useState(0);
@@ -123,103 +107,45 @@ export default function Lottery_3() {
   }, []);
 
   return (
-    <div className="w-full h-[100dvh] flex flex-col items-center">
+    <div className="w-full h-[100dvh] flex flex-col items-center gap-2">
       <div
         ref={bannerWidthRef}
         className={clsx(
-          "w-full aspect-video md:aspect-auto rounded-xl bg-amber-50",
+          "w-full aspect-auto rounded-xl bg-amber-50",
           "flex justify-center items-center"
         )}
       >
-        {bannerWidth > 0 && <Slot parentWidth={bannerWidth} />}
+        {bannerWidth > 0 && (
+          <Slot
+            parentWidth={bannerWidth}
+            numbers={numbers}
+            setNumbers={setNumbers}
+          />
+        )}
       </div>
 
-      {/* --- 區塊一: 基本資訊 (Name & Date) --- */}
-      <h2>📅 基本資訊</h2>
-      <div
-        style={{
-          display: "flex",
-          gap: "20px",
-          borderBottom: "2px solid #ccc",
-          paddingBottom: "10px",
-        }}
-      >
-        {basicInfo.map((item) => (
-          <div
-            key={item.name}
-            style={{
-              border: "1px solid #ddd",
-              padding: "10px",
-              minWidth: "150px",
-            }}
+      <div className="flex w-full items-center justify-center gap-x-[4px]">
+        {pageData.tabs.map((tab, idx) => (
+          <button
+            key={idx}
+            className={clsx(
+              "w-full max-w-[300px] bg-[var(--bg-secondary)]",
+              "border-[2px] py-[12px]",
+              idx === 0 && "rounded-l-[12px]",
+              idx === pageData.tabs.length - 1 && "rounded-r-[12px]",
+              pageData.selectedTab === tab
+                ? "border-amber-300 text-amber-300"
+                : "border-white text-white"
+            )}
+            onClick={() =>
+              setPageData((prev) => ({
+                ...prev,
+                selectedTab: tab,
+              }))
+            }
           >
-            **{item.name.toUpperCase()}**
-            <p style={{ margin: "5px 0" }}>開獎日: {item.date}</p>
-            {/*  如果需要顯示圖標 */}
-          </div>
-        ))}
-      </div>
-
-      {/* --- 區塊二: 頭獎 (Top Prizes) --- */}
-      <h2>🥇 頭獎 (Top 3)</h2>
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "20px",
-          marginBottom: "20px",
-        }}
-      >
-        {topPrizes.map((item) => (
-          <PrizeList
-            key={item.name}
-            lotteryName={item.name.toUpperCase()}
-            prizes={item}
-            prizeKey="top_three_prizes"
-          />
-        ))}
-      </div>
-      {/* ------------------------------------------------------------------ */}
-      {/* 新增區塊：特別獎 (Special Prizes) */}
-      {/* ------------------------------------------------------------------ */}
-      <h2>🥈 特別獎 (Special 10)</h2>
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "20px",
-          marginBottom: "20px",
-        }}
-      >
-        {specialPrizes.map((item) => (
-          <PrizeList
-            key={item.name}
-            lotteryName={item.name.toUpperCase()}
-            prizes={item}
-            prizeKey="special_prizes" // 注意這裡的鍵名
-          />
-        ))}
-      </div>
-
-      {/* ------------------------------------------------------------------ */}
-      {/* 新增區塊：安慰獎 (Consolation Prizes) */}
-      {/* ------------------------------------------------------------------ */}
-      <h2>🥉 安慰獎 (Consolation 10)</h2>
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "20px",
-          marginBottom: "20px",
-        }}
-      >
-        {consolationPrizes.map((item) => (
-          <PrizeList
-            key={item.name}
-            lotteryName={item.name.toUpperCase()}
-            prizes={item}
-            prizeKey="consolation_prizes" // 注意這裡的鍵名
-          />
+            {tab}
+          </button>
         ))}
       </div>
     </div>

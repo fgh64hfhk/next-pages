@@ -10,7 +10,8 @@ export default function SideMenu() {
   return (
     <div
       className={clsx(
-        "flex flex-col gap-5 shrink-0 sticky top-0 transition-all duration-300 bg-[#092F22]",
+        "hidden md:flex md:flex-col gap-5 shrink-0 sticky top-0 bg-[#092F22]",
+        "transition-all duration-300",
         pageData.isSidebarOpen
           ? "w-[224px] items-start px-5"
           : "w-[64px] items-center"
