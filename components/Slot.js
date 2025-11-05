@@ -31,7 +31,7 @@ export default function Slot({ parentWidth, numbers, setNumbers }) {
         <div className="w-full text-[24px] text-center text-white p-2">
           幸運號碼
         </div>
-        <SpeedoMeter value={numbers} />
+        <SpeedoMeter targetDigits={numbers} />
         <SlotArm onChangeNumbers={setNumbers} />
         <SlotHint />
       </div>

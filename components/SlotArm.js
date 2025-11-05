@@ -70,15 +70,16 @@ export default function SlotArm({ onChangeNumbers }) {
       style={{
         pointerEvents: armState.isAnimating ? "none" : "unset",
       }}
-      className="cursor-pointer w-[37px] h-[100px] right-[-38px] bottom-0 absolute"
+      className="w-[37px] h-[100px] right-[-38px] bottom-0 absolute cursor-pointer "
     >
       <div
         id="arm"
         style={{ top: armState.armTop, height: armState.armHeight }}
         className={clsx(
           transitionClass,
-          "bg-[linear-gradient(to_right,_#787878_0%,_#939393_47%,_#cacaca_87%,_#e6e6e6_100%)] rounded-[0_0_4px_4px] shadow-[inset_0_2px_5px_rgba(0,0,0,0.8)]",
-          "absolute w-[6px] left-[14px] z-30 overflow-visible"
+          "bg-[linear-gradient(to_right,_#787878_0%,_#939393_47%,_#cacaca_87%,_#e6e6e6_100%)]",
+          "rounded-[0_0_4px_4px] shadow-[inset_0_2px_5px_rgba(0,0,0,0.8)]",
+          "w-[6px] left-[14px] z-30 absolute overflow-visible"
         )}
       >
         <div

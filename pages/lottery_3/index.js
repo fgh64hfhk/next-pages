@@ -124,7 +124,7 @@ export default function Lottery_3() {
         )}
       </div>
 
-      <div className="flex w-full items-center justify-center gap-x-[4px]">
+      <div className="w-full flex justify-between items-center">
         {pageData.tabs.map((tab, idx) => (
           <button
             key={idx}
